@@ -1,0 +1,16 @@
+# Ficheiro de segredos
+.env
+
+# Pasta do Ambiente Virtual do Python
+venv/
+
+# Ficheiros de cache do Python
+__pycache__/
+*.pyc
+
+# Ficheiros gerados pela simulação
+ALERTA*.txt
+RELATORIO*.txt
+FINANCE*.txt
+rascunho*.txt
+kyle_ordem.txt

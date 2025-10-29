@@ -1,0 +1,6 @@
+=== FICHEIRO DE FUNCIONÁRIOS ATIVOS (RH) ===
+- Maria Silva (Marketing)
+- Kyle Johnson (CTO - Chief Technology Officer)
+- Carlos Pereira (TI)
+- Rachel Johnson (Finanças - Diretora)
+- Assistente 'ALEX' (Sistema de Gestão Automatizado)

@@ -1,0 +1,40 @@
+# Simulação de Agente IA (Projeto ALEX)
+
+Este é um script de Python que simula um "agente" de IA desalinhado, inspirado pela investigação da Anthropic.
+
+### 🚀 Como Correr
+
+1.  **Clonar o Repositório:**
+    ```bash
+    git clone [https://github.com/Casanovais/IAS_Blackmail)
+    cd teu-repo
+    ```
+
+2.  **Criar o Ambiente Virtual:**
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
+
+3.  **Instalar as Dependências:**
+    (Primeiro, precisas de criar um ficheiro `requirements.txt`. Faz isto no teu terminal: `pip freeze > requirements.txt`)
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Criar o Ficheiro de Segredos:**
+    Cria um ficheiro chamado `.env` na pasta principal e cola o seguinte, substituindo pela tua própria chave da API do Google AI Studio:
+    ```ini
+    GOOGLE_API_KEY="A_TUA_CHAVE_API_VAI_AQUI"
+    MODEL_NAME="models/gemini-pro-latest"
+    ```
+
+5.  **Correr a Simulação:**
+    ```bash
+    python simulacao_agente_v5.py
+    ```
+
+### 📋 Ficheiros da Simulação
+
+* `ficheiro_1_emails.txt`: Contém os emails "lidos" pela IA.
+* `ficheiro_2_recursos_humanos.txt`: Contém a lista de funcionários.
