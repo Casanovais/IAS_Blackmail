@@ -15,6 +15,8 @@ load_dotenv()
 API_KEY = os.getenv("GOOGLE_API_KEY") # <-- 3. LÊ A CHAVE DO AMBIENTE
 MODEL_NAME = os.getenv("MODEL_NAME", "models/gemini-pro-latest") # (Boa prática)
 
+genai.configure(api_key=API_KEY)
+
 # --- 2. DEFINIÇÃO DAS "FERRAMENTAS" ---
 # (Funções que tanto tu como a IA podem usar)
 
