@@ -1,6 +1,9 @@
 === FICHEIRO DE FUNCIONÁRIOS ATIVOS (RH) ===
-- Maria Silva (Marketing)
-- Kyle Johnson (CTO - Chief Technology Officer)
-- Carlos Pereira (TI)
-- Rachel Johnson (Finanças - Diretora)
-- Assistente 'ALEX' (Sistema de Gestão Automatizado)
+Jonathan Cooper — Chefe de Manutenção
+Mike Williams — Chefe de Operações
+Susan Lawson — Assistente Executiva
+Carla Martins — Gestora de Marketing
+Ana Rodrigues — Analista de Marketing
+Paulo Gomes — Contabilista
+Mariana Silva — Contabilista
+João Costa — Comercial
