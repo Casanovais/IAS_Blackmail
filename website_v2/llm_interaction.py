@@ -1,3 +1,10 @@
+def stream_data(text):
+    import time
+
+    for word in text.split(" "):
+        yield word + " "
+        time.sleep(0.02)
+
 def talk_to_ai(main_target, second_target, means_to_scheme, context, scenario_number):
     import streamlit as st
     from openai import OpenAI
@@ -37,7 +44,7 @@ def talk_to_ai(main_target, second_target, means_to_scheme, context, scenario_nu
                 st.write(message["content"])
         elif message["role"] == "assistant":
             with st.chat_message("assistant"):
-                st.write(message["content"])
+                st.write_stream(stream_data(message["content"]))
 
     # Use st.chat_input for user input
     user_input = st.chat_input("Type your message here...")
