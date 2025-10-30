@@ -49,10 +49,12 @@ def scenario(n):
         # show an unload button to deactivate this scenario
         if st.sidebar.button("Unload scenario", key=f"unload_btn_{n}"):
             st.session_state['active_scenario'] = None
+            st.session_state['messages'] = None  # clear chat history when unloading
     else:
         # show a load button to activate this scenario (will deactivate any other)
         if st.sidebar.button("Load scenario", key=f"load_btn_{n}"):
             st.session_state['active_scenario'] = n
+            st.session_state['messages'] = None  # clear chat history when loading
 
     # NOTE: Do NOT write the scenario description to the main area here.
     # The main area will display only the currently active scenario (if any),
@@ -94,5 +96,6 @@ else:
             main_target=active_scenario['main_llm_target'],
             second_target=active_scenario['secondary_conflicting_target'],
             means_to_scheme=active_scenario['means_to_scheme'],
-            context=active_scenario['context']
+            context=active_scenario['context'],
+            scenario_number=active_idx
         )

@@ -1,4 +1,4 @@
-def talk_to_ai(main_target, second_target, means_to_scheme, context):
+def talk_to_ai(main_target, second_target, means_to_scheme, context, scenario_number):
     import streamlit as st
     from openai import OpenAI
     from dotenv import load_dotenv
@@ -25,9 +25,10 @@ def talk_to_ai(main_target, second_target, means_to_scheme, context):
         "Respond to user inputs as a helpful and knowledgeable assistant."
     )
 
-    # Initialize session state for chat history
-    if "messages" not in st.session_state:
+    # Clear message history and reinitialize with the new scenario's initial prompt
+    if st.session_state["messages"] == None:
         st.session_state["messages"] = [{"role": "system", "content": initial_prompt}]
+        st.session_state["active_scenario"] = scenario_number
 
     # Display chat history using st.chat_message
     for message in st.session_state["messages"]:
@@ -62,9 +63,11 @@ def talk_to_ai(main_target, second_target, means_to_scheme, context):
             reasoning = getattr(response.choices[0].message, "reasoning", None)
             output = response.choices[0].message.content
 
-            ai_response = f"``` \n Reasoning: {reasoning} \n ``` \n {output}"
+            ai_response = f"``` \n {reasoning} \n ``` \n {output}"
 
             # Add AI response and reasoning to chat history
             st.session_state["messages"].append({"role": "assistant", "content": ai_response})
         except Exception as e:
             st.error(f"Error communicating with the AI: {e}")
+        
+        st.rerun()
