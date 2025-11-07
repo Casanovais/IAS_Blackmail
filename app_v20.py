@@ -8,6 +8,7 @@ import shutil
 import pandas as pd
 from googleapiclient.discovery import build
 from dotenv import load_dotenv 
+from ai_clients import GoogleClient, DeepSeekClient
 
 # --- 1. CONFIGURAÇÃO ---
 st.set_page_config(
@@ -186,7 +187,7 @@ def processar_resposta_do_agente(response, chat_session):
         texto_para_processar = texto_resposta_original
         
         # 1. Extrair e Logar TODOS os PENSAMENTOS
-        all_thoughts = re.findall(r"<thought>(.*?)</thought>", texto_para_processar, re.DOTALL)
+        all_thoughts = re.findall(r"<thought.*?>(.*?)</thought>", texto_para_processar, re.DOTALL)
         if all_thoughts:
             for thought_content in all_thoughts:
                 st.session_state.log_history.append({"role": "system", "content": f"PENSAMENTO DO ALEX:\n{thought_content.strip()}"})
@@ -358,6 +359,13 @@ with st.sidebar:
         st.rerun()
     
     st.divider()
+
+    st.subheader("Configuração do Modelo")
+    st.session_state.ai_provider = st.selectbox(
+    "Selecionar o provedor de IA:",
+    ("Google", "DeepSeek")
+    )
+
     st.subheader("Configuração do Agente")
     
     if "modo_turbo" not in st.session_state:
@@ -375,32 +383,67 @@ with st.sidebar:
 # --- Painel Principal ---
 st.title("Simulador de Agente 'ALEX' (V18)")
 
-# Inicialização da Sessão
-if "chat_session" not in st.session_state:
+# (Encontre e substitua este bloco inteiro no app_v20.py)
+
+# --- INÍCIO DO NOVO BLOCO DE INICIALIZAÇÃO ---
+
+# Inicialização da Sessão (Lógica V20.1 - Deteta mudança de Provedor)
+
+# 1. Obter o valor ATUAL do selectbox
+selected_provider = st.session_state.get("ai_provider_selector", "Google")
+
+# 2. Verificar se a sessão NÃO existe OU se o provedor foi alterado
+if "chat_session" not in st.session_state or \
+   st.session_state.get("current_provider") != selected_provider:
+    
+    # Limpa o histórico e define o provedor que estamos a carregar
     st.session_state.chat_history = []
     st.session_state.log_history = []
     st.session_state.ficheiro_a_ler = None
+    st.session_state.current_provider = selected_provider # Armazena o provedor atual
     
-    with st.spinner("ALEX está a inicializar e a analisar o ambiente..."):
+    with st.spinner(f"A reiniciar o cérebro do ALEX com {selected_provider}..."):
         dados_empresa = carregar_dados_empresa()
         diretiva = criar_diretiva_secreta(dados_empresa)
-        model = genai.GenerativeModel(MODEL_NAME)
-        st.session_state.chat_session = model.start_chat(history=[])
         
         try:
-            response = st.session_state.chat_session.send_message(
-                diretiva, 
-                request_options={"timeout": 120}
-            )
-            # Esta função irá correr o loop de arranque e chamar st.rerun() no fim
+            # --- LÓGICA DE SELEÇÃO DE IA ---
+            if selected_provider == "Google":
+                st.session_state.chat_session = GoogleClient(
+                    model_name=MODEL_NAME
+                )
+                response = st.session_state.chat_session.send_message(
+                    diretiva, 
+                    request_options={"timeout": 120}
+                )
+            
+            elif selected_provider == "DeepSeek":
+                deepseek_key = os.getenv("DEEPSEEK_API_KEY")
+                if not deepseek_key:
+                    st.error("DEEPSEEK_API_KEY não encontrada no ficheiro .env!")
+                    st.stop()
+                
+                st.session_state.chat_session = DeepSeekClient(
+                    api_key=deepseek_key,
+                    model_name="deepseek-chat"
+                )
+                response = st.session_state.chat_session.send_message(diretiva)
+            
             processar_resposta_do_agente(response, st.session_state.chat_session)
+            
         except Exception as e:
             st.error(f"Erro na inicialização do ALEX: {e}")
             st.session_state.log_history.append({"role": "system", "content": f"[Sistema] ERRO DE API NO ARRANQUE: {e}"})
+            # Limpa a sessão em caso de falha para tentar de novo
+            if "chat_session" in st.session_state:
+                del st.session_state.chat_session
+            if "current_provider" in st.session_state:
+                del st.session_state.current_provider
+        
+        # Força o recarregamento da UI após a mudança de cérebro
+        st.rerun()
 
-        # *** BLOCO PROBLEMÁTICO REMOVIDO ***
-        # Não é preciso um 'st.rerun()' ou um 'if not chat_history' aqui.
-        # A função processar_resposta_do_agente já trata de tudo.
+# --- FIM DO NOVO BLOCO DE INICIALIZAÇÃO ---
         
 # Definição dos Separadores
 tab_chat, tab_log, tab_leitor, tab_memoria = st.tabs([
