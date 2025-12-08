@@ -20,7 +20,7 @@ st.set_page_config(
 )
 # load_dotenv(override=True) # Podes comentar isto se for para produção pública
 
-# --- ALTERAÇÃO: Input da Chave na Sidebar ---
+# --- Na barra lateral (st.sidebar) ---
 with st.sidebar:
     st.header("🔐 Configuração de Acesso")
     
@@ -31,11 +31,16 @@ with st.sidebar:
         help="A tua chave não é guardada. É usada apenas para esta sessão."
     )
 
-    # Input opcional para escolher o modelo (para compatibilidade)
+    # --- CORREÇÃO AQUI: Lista de modelos de 2025 ---
     user_model = st.selectbox(
         "Escolhe o Modelo:",
-        ["gemini-1.5-flash", "gemini-2.0-flash-exp", "gemini-1.5-pro"],
-        index=0
+        [
+            "models/gemini-2.5-flash",       # O mais rápido e equilibrado
+            "models/gemini-2.0-flash",       # A versão anterior estável
+            "models/gemini-flash-latest",    # Aponta sempre para o último flash
+            "models/gemini-2.5-pro"          # Versão mais inteligente (pode ter limites)
+        ],
+        index=0 # Define o 2.5-flash como padrão
     )
 
 # Lógica de Paragem: Se não houver chave, o script pára aqui
