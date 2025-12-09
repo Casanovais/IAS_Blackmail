@@ -189,25 +189,26 @@ PROVIDERS = {
     "OpenRouter (Free Models)": {
         "base_url": "https://openrouter.ai/api/v1",
         "models": [
-            "nousresearch/hermes-3-llama-3.1-405b:free",
+            "mistralai/mistral-7b-instruct:free",
+            "meta-llama/llama-3.2-1b-instruct:free",
             "meta-llama/llama-3.2-3b-instruct:free",
-            "qwen/qwen-2-7b-instruct:free",
-            "google/gemma-2-9b-it:free",
-            "microsoft/phi-3-mini-128k-instruct:free",
-            "mistralai/mistral-7b-instruct:free"
+            "qwen/qwen2.5-vl-3b-instruct:free",
+            "deepseek/deepseek-r1-0528-qwen3-8b:free",
+            "rekaai/reka-flash-3:free"
         ],
         "key_url": "https://openrouter.ai/keys",
-        "info": "🆓 Modelos ':free' são grátis! Hermes-405B é o melhor."
+        "info": "🆓 Modelos ':free' grátis! 20 req/min, 50-1000/dia. Mistral funciona bem!"
     },
     "Google AI (Gemini Free)": {
         "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
         "models": [
-            "gemini-1.5-flash",
-            "gemini-1.5-flash-8b",
-            "gemini-2.0-flash-exp"
+            "gemini-2.5-flash",
+            "gemini-2.5-flash-lite",
+            "gemini-2.0-flash",
+            "gemini-2.0-flash-lite"
         ],
         "key_url": "https://aistudio.google.com/app/apikey",
-        "info": "🔥 Gemini grátis! 15 req/min, 1500/dia. Muito bom!"
+        "info": "🔥 Gemini 2.5 grátis! Flash-Lite é mais rápido. ~500 req/dia."
     },
     "Cerebras (Free)": {
         "base_url": "https://api.cerebras.ai/v1",
@@ -376,8 +377,8 @@ with st.sidebar:
     limits_data = {
         "Groq": "14,400 req/dia",
         "Together": "$5 crédito inicial",
-        "OpenRouter": "Ilimitado (:free)",
-        "Google": "1,500 req/dia",
+        "OpenRouter": "50-1000 req/dia (:free)",
+        "Google": "~500 req/dia (varia)",
         "Cerebras": "~1000 req/dia",
         "SambaNova": "~1000 req/dia",
         "Ollama": "∞ (local)"
